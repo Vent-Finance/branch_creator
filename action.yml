@@ -1,0 +1,15 @@
+name: 'Branch Creator'
+description: A Github Action for creating branch
+branding:
+  color: black
+  icon: git-branch
+inputs:
+  name:
+    description: Branch name
+    required: true
+runs:
+  using: 'node16'
+  main: 'index.js'
+outputs:
+  created:
+    description: Boolean true if new branch created

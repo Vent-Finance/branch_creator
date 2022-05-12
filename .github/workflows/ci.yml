@@ -1,0 +1,41 @@
+name: CI
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ci
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Lint commit message
+        uses: wagoid/commitlint-github-action@v4
+
+      - name: Setup node:16
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Run unit tests
+        run: npm test
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Create a release version
+        if: github.event_name == 'push'
+        uses: Vent-Finance/release_chief@v1.0.0
+        with:
+          dryRun: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
