@@ -1,0 +1,11 @@
+name: 'Create branch'
+inputs:
+  name:
+    description: Branch name
+    required: true
+runs:
+  using: 'node16'
+  main: 'index.js'
+outputs:
+  created:
+    description: Boolean true if new branch created
